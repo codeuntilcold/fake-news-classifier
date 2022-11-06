@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dự đoán tin giả</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="script.js"></script>
+        <!-- CSS only -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
+    </head>
+
+    <body>
+        <div class="header">
+            <div class="header-left">
+                <span class="item-header" style="cursor:default; background-color: inherit;">Phát hiện tin giả</span>
+            </div>
+            <div class="header-right">
+                <span class="item-header"><a href="http://github.com/tri218138">Github</a></span>
+                <span class="item-header"><a href="mailto:doantrancaotri1108@gmail.com">Liên hệ</a></span>
+            </div>
+        </div>
+        <div class="container">            
+            <div class="content">
+                <div class="row">
+                    <p id="introduction">Website nhận biết tin giả sử dụng thuật toán Học Máy</p>
+                </div>
+                <div class="row" style="justify-content: flex-end;">
+                    <span class="item-module" onclick="toggle_mode()">Đường dẫn</span>
+                    <span class="item-module" onclick="clear_area_content()">Xóa</span>
+                    <span class="item-module" onclick="show_example_list()" >Ví dụ</span>
+                </div>
+                <div class="row" style="justify-content: flex-end;">
+                    <ul id="examples" style="visibility:hidden; position:absolute;">
+                        <li onclick="get_example(1)">Ví dụ 1</li>
+                        <li onclick="get_example(2)">Ví dụ 2</li>
+                    </ul>
+                </div>
+                <div class="row" id="news" style="justify-content: center;">
+                    <textarea id="textInput" name="textInput" rows="20" cols="150" placeholder="Nội dung bài báo ..." onchange="this.style.color = 'black';";></textarea>
+                </div>
+                <div class="row" id="predict" style="justify-content: center;">
+                    <span class="item-module" onclick="predict_function()">Dự đoán</span>
+                </div>
+                <div class="row" style="justify-content: center;">
+                    <span style="visibility:hidden;" id="result"><strong>Prediction: Real</strong></span>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>
