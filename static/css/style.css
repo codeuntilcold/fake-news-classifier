@@ -1,3 +1,7 @@
+:root {
+    font-family: 'Courier New', Courier, monospace;
+}
+
 body{
     margin: 0 auto;
 }
@@ -11,6 +15,7 @@ a{
     height: 10vh;
     display: flex;
     justify-content: space-between;
+    font-size: 20px;
 }
 
 .header-right{
@@ -76,8 +81,8 @@ a{
 }
 
 #introduction{
-    font-size: 50px;
-    /* justify-self: center; */
+    font-size: 36px;
+    text-align: center;
 }
 
 #news{
@@ -85,5 +90,17 @@ a{
 }
 
 #textInput{
-    resize: none;
+    width: 100%;
+    margin-right: 32px;
+    margin-left: 8px;
+}
+
+#titleInput {
+    width: 50%;
+    margin-left: 8px;
+}
+
+#authorInput {
+    width: 50%;
+    margin-left: 8px;
 }
