@@ -25,7 +25,7 @@ def predict(text, title, author):
     review = ' '.join(review)
 
     review_vect = tfidfvect.transform([review]).toarray()
-    prediction = 'giả' if model.predict(review_vect)[0] == 0 else 'thật'
+    prediction = 'thật' if model.predict(review_vect)[0] == 0 else 'giả'
     print(model.predict(review_vect))
     return prediction
 
