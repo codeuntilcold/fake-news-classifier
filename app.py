@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import nltk
-nltk.download('stopword')
+nltk.download('stopwords')
 import pickle
 from nltk.corpus import stopwords
 import re
