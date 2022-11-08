@@ -20,9 +20,8 @@ def home():
 
 def predict(text, title, author):
     content = title + ' ' + author + ' ' + text
-    print(content)
-    review = re.sub('[^a-zA-Z]', ' ', content)
-    review = review.lower()
+    tokens = re.sub('[^a-zA-Z]', ' ', content)
+    review = tokens.lower()
     review = review.split()
     review = [ps.stem(word)
               for word in review if not word in stopwords.words('english')]
@@ -34,7 +33,7 @@ def predict(text, title, author):
 
     diction = measure_importance(review_vect)
     # print(diction)
-    return prediction, diction
+    return prediction, diction, tokens
 
 
 @app.route('/', methods=['POST'])
@@ -42,9 +41,15 @@ def webapp():
     text = request.form['textInput']
     author = request.form['authorInput']
     title = request.form['titleInput']
-    prediction, diction = predict(text, title, author)
-    sorted_dict = {k: v for k, v in sorted(diction.items(), key=lambda item: item[1])}
-    return render_template('index.html', original=text, textInput=text, result=prediction, dis=sorted_dict)
+    prediction, weighted_stems, tokens = predict(text, title, author)
+
+    coloring = dict()
+    for word in tokens.split():
+        stemmed = ps.stem(word.lower()) if not word in stopwords.words('english') else word.lower()
+        if stemmed in weighted_stems:
+            coloring[word] = weighted_stems[stemmed] if stemmed in weighted_stems else 0
+
+    return render_template('index.html', original=text, textInput=text, result=prediction, dict=coloring)
 
 
 @app.route('/predict/', methods=['GET', 'POST'])
@@ -56,10 +61,13 @@ def api():
 
 def measure_importance(review_vect):
     word_indexes = np.argwhere(review_vect[0])
+    word_values = review_vect[0, word_indexes][:, 0]
+    # print(word_values)
     # print(word_indexes[:, 0])
-    word_importance = model.coef_[0][word_indexes[:, 0]]
+    word_coeffs = model.coef_[0][word_indexes[:, 0]]
+    word_importance = word_coeffs * word_values
     # print(word_importance)
-    return dict(zip(tfidfvect.get_feature_names_out()[word_indexes][:, 0], np.tanh(word_importance)))
+    return dict(zip(tfidfvect.get_feature_names_out()[word_indexes][:, 0], word_importance))
 
 
 if __name__ == "__main__":

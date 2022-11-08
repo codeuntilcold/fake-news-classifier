@@ -53,17 +53,16 @@
                 {% if original %}
                 <p>Original: 
                     {% for word in original.split(' ') %} 
-                        {% set vars = namespace(in_dict=false) %}
-                        {% for key, value in dis.items() %}
-                            {% if key == word.lower() %}
-                            <span style="color: {% if value > 0 %} rgba(255,0,0,{{[value,0.3]|max}}) {% else %} rgba(0,0,255,{{[value | abs, 0.3]|max}}) {% endif %};"><strong>{{word}}</strong></span>
-                            {% set vars.in_dict=true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if not vars.in_dict  %}
-                            <span style="color: rgba(0,0,0,0.7);">{{word}}</span>
+                        {% if word in dict %}
+                        {% set value = dict[word] %}
+                        <span style="color: {% if value > 0 %} rgba(255,0,0,{{[value,0.3]|max}}) {% else %} rgba(0,0,255,{{[value | abs, 0.3]|max}}) {% endif %};"><strong>{{word}}</strong></span>
+                        {% else %}
+                        <span style="color: rgba(0,0,0,0.7);">{{word}}</span>
                         {% endif %}
                     {% endfor %}
+                    <!-- {% for word, value in dict.items() %}
+                    <span style="color: {% if value > 0 %} rgba(255,0,0,{{[value,0.2]|max}}) {% elif value < 0 %} rgba(0,0,255,{{[value | abs, 0.2]|max}}) {% else %} rgba(0,0,0,0.5) {% endif %};"><strong>{{word}}</strong></span>
+                    {% endfor %} -->
                 </p>
                 {% endif %}
             </div>
