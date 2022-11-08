@@ -5,6 +5,8 @@ from nltk.corpus import stopwords
 import re
 from nltk.stem.porter import PorterStemmer
 import numpy as np
+import bs4
+import urllib.request
 
 app = Flask(__name__)
 ps = PorterStemmer()
@@ -17,8 +19,21 @@ tfidfvect = pickle.load(open('Model/tfidf.pickle', 'rb'))
 def home():
     return render_template('index.html')
 
+def get_all_content(urll):
+    try:
+        webpage=str(urllib.request.urlopen(urll).read().decode('utf-8'))
+        soup = bs4.BeautifulSoup(webpage)
+        return soup.get_text()
+    except:
+        return urll
 
 def predict(text, title, author):
+    # /////////////////
+    print(text[0: 8])
+    if text[0: 8] == 'https://':
+        text = get_all_content(text)
+    # ////////////////
+
     content = title + ' ' + author + ' ' + text
     tokens = re.sub('[^a-zA-Z]', ' ', content)
     review = tokens.lower()
@@ -37,10 +52,12 @@ def predict(text, title, author):
 
 
 @app.route('/', methods=['POST'])
+
 def webapp():
     text = request.form['textInput']
     author = request.form['authorInput']
     title = request.form['titleInput']
+
     prediction, weighted_stems, tokens = predict(text, title, author)
 
     coloring = dict()
