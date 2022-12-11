@@ -4,7 +4,7 @@ import pandas as pd
 import re
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
-
+import nltk
 
 port_stem = PorterStemmer()
 
@@ -25,3 +25,5 @@ vec_input = vectorizer.transform(input).toarray()
 is_fake_news = model.predict(vec_input)
 
 print(is_fake_news)
+
+nltk.download()
